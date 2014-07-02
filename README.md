@@ -1,4 +1,4 @@
-itcheck
+IT Check
 =======
 
-Chrome extension for our forums
+Chrome extension for IvoryTower.com.
