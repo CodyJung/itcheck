@@ -1,10 +1,9 @@
 (function(win, $){	
 	function doNextUnreadThread(){
-		console.log('next unread');
-		var masterLink = $('#Master_ctl08 a')[0];
-		if(masterLink.href.indexOf('Action=Ignore') === -1
-			&& masterLink.href.indexOf('Action=Unignore') === -1){
-			masterLink.click();
+		var masterLink = $('#Master_ctl08 a[href*="ForumThread.aspx"]');
+		if(masterLink.length > 0){
+			console.log('moving to next unread thread');
+			masterLink[0].click();
 		}else{
 			console.log('no unread threads');
 		}
