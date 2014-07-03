@@ -10,15 +10,23 @@
 		}
 	};
 	
-	function jumpToNextPost(){
-		currentPostNumber++;
-		location.hash = 'Post'+currentPostNumber;
-	};
-	
+    function jumpToNextPost(){
+        if( $("#Post" + (currentPostNumber + 1)).length > 0 ){  
+            $("#Post" + currentPostNumber).css({"border-left-width": 1, "padding-left": 11});
+            currentPostNumber++;
+            location.hash = 'Post'+currentPostNumber;
+            $("#Post" + currentPostNumber).css({"border-left-width": 3, "padding-left": 10});
+        }
+    };
+    
 	function jumpToPreviousPost(){
-		currentPostNumber--;
-		location.hash = 'Post'+currentPostNumber;
-	}
+        if( $("#Post" + (currentPostNumber - 1)).length > 0 ){  
+            $("#Post" + currentPostNumber).css({"border-left-width": 1, "padding-left": 11});
+            currentPostNumber--;
+            location.hash = 'Post'+currentPostNumber;
+            $("#Post" + currentPostNumber).css({"border-left-width": 3, "padding-left": 10});
+        }
+    }
 	
 	function ratePost(up){
 		var postIdSelector = '#Post' + currentPostNumber;
