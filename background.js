@@ -12,6 +12,6 @@
 
 	// Update number on navigate to a new thread
 	chrome.webNavigation.onCompleted.addListener(function (details) {
-		getUnreadThreads(null);
+		ITCheck.getUnreadThreadCount(null);
 	},{url: [{hostSuffix: 'ivorytower.com', pathPrefix: '/IvoryTower/ForumThread.aspx'}]});
 })(window);
