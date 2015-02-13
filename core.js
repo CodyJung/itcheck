@@ -16,27 +16,16 @@
 
 	function getUnreadThreadCount(alarm) {
 		if(shouldSkipRequest()) return;
-		lastCheck = Date.now();
 		
 		// Scrape the unread thread count page
 		$.get(baseUrl + 'Forums.asmx/GetUnreadThreadCount', function(data) {
-			// Grab the number of unread threads
-			var myRegex = /">(\d+)</;
-			
-			if(data.match(myRegex)){
-				// If there are unread threads, update the badge
-				var matches = myRegex.exec(data);
-				numberOfUnread = matches[1];
-				if(numberOfUnread == 0){
-					updateBadge("");
-				} else {
-					updateBadge(numberOfUnread);
-				}
-			} else {
-				// Or set it to blank
+			var numberOfUnread = (data).find('int').text();
+			if(numberOfUnread == 0){
 				updateBadge("");
+			} else {
+				updateBadge(numberOfUnread);
 			}
-		}, "html")
+		}, "xml")
 		.fail(function(){
 			updateBadge("X"); // Let the user know they're probably not logged in.
 		});
