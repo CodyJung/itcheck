@@ -1,17 +1,22 @@
-(function(){
-	var isLoggedIn = false;
-	var baseUrl = "http://ivorytower.com/IvoryTower/";
+(function(window){
+	window.ITCheck = window.ITCheck || {};
+		
+	function createTab(url){
+		chrome.tabs.create({'url': url});
+	}
 	
 	function getUnreadThreads() {
+		if(ITCheck.shouldSkipRequest()) return;
+		
 		// Download the main page
-		$.get(baseUrl, function(data) {
+		$.get(ITCheck.baseUrl, function(data) {
 			// Grab the number of unreads from the title
 			var myRegex = /<title>\s+IvoryTower \((\d+)\)/;
 			var notLoggedRegex = /<title>\s+IvoryTower - login\s+/;
 			
 			if(data.match(notLoggedRegex)){
 				// Let the user know if they're not logged in.
-				updateBadge("X");
+				ITCheck.updateBadge("X");
 				updatePopup("You must <a href='#' id='signIn'>log in</a> to IvoryTower first!");
 				$("#signIn").click(function() {
 					openSignInPage();
@@ -20,7 +25,7 @@
 				// If there are unread threads, update the badge
 				var matches = myRegex.exec(data);
 				numberOfUnread = matches[1];
-				updateBadge(numberOfUnread);
+				ITCheck.updateBadge(numberOfUnread);
 				
 				var firstUnread = /<a href="ForumThread.aspx\?Thread=(\d+)#New">([^<]+)</;
 				var unread = firstUnread.exec(data);
@@ -37,7 +42,7 @@
 				});
 			} else {
 				// Or set it to blank
-				updateBadge("");
+				ITCheck.updateBadge("");
 				updatePopup("No unread threads.<br /><a href='#' id='ITToday'>Go to IvoryTower Today</a>");
 				
 				$("#ITToday").click(function() {
@@ -46,26 +51,9 @@
 			}
 		})
 		.fail(function() {
-			updateBadge("X");
+			ITCheck.updateBadge("X");
 			updatePopup("Error contacting IT - is the server ok?");
 		});
-	}
-
-	// Updates that little counter with either a number (if there are unread threads) or an "X" if not logged in.
-	// Also changes the color appropriately
-	function updateBadge(unread) {
-		if(unread == "X"){
-			chrome.browserAction.setBadgeBackgroundColor({color:[120, 120, 120, 255]});
-			setTitle("Logged Out");
-		} else {
-			chrome.browserAction.setBadgeBackgroundColor({color:[0, 0, 255, 255]});
-			if(unread == ""){
-				setTitle("No unread threads");
-			} else {
-				setTitle(unread + " unread threads");
-			}
-		}
-		chrome.browserAction.setBadgeText({text:unread});
 	}
 
 	// Replaces or appends the text in the popup.
@@ -75,31 +63,23 @@
 
 	// Opens a thread in a new window.
 	function openThread(threadID){
-		createTab(baseUrl+'ForumThread.aspx?Thread=' + threadID + '#New');
+		createTab(ITCheck.baseUrl+'ForumThread.aspx?Thread=' + threadID + '#New');
 		getUnreadThreads();
 	}
 
 	// Open IvoryTower Today
 	function openIvoryTowerToday(){
-		createTab(baseUrl);
+		createTab(ITCheck.baseUrl);
 	}
 
 	// Open Sign-in page
 	function openSignInPage(){
-		createTab(baseUrl+'Login.aspx');
-	}
-	
-	function createTab(url){
-		chrome.tabs.create({'url': url});
-	}
-	
-	function setTitle(newTitle){
-		chrome.browserAction.setTitle({ title: newTitle});
+		createTab(ITCheck.baseUrl+'Login.aspx');
 	}
 
 	// Marks a thread as read without opening it.
 	function skipThread(threadID){
-		$.get(baseUrl+"ForumThread.aspx?Thread=" + threadID, function(data2){					
+		$.get(ITCheck.baseUrl+"ForumThread.aspx?Thread=" + threadID, function(data2){					
 			var nextUnread = /<a href="ForumThread.aspx\?Thread=(\d+)#New">([^<]+)</;
 			if(data2.match(nextUnread)){
 				var unread = nextUnread.exec(data2);
@@ -123,7 +103,7 @@
 			}
 		})
 		.fail(function() {
-			updateBadge("X");
+			ITCheck.updateBadge("X");
 			updatePopup("Error contacting IT - is the server ok?");
 		});
 		
@@ -133,4 +113,4 @@
 	$(document).ready(function() {
 		getUnreadThreads();
 	});
-})();
+})(window);
