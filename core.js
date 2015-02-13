@@ -19,7 +19,7 @@
 		
 		// Scrape the unread thread count page
 		$.get(baseUrl + 'Forums.asmx/GetUnreadThreadCount', function(data) {
-			var numberOfUnread = (data).find('int').text();
+			var numberOfUnread = $(data).find('int').text();
 			if(numberOfUnread == 0){
 				updateBadge("");
 			} else {
