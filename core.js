@@ -12,6 +12,7 @@
 		if(!shouldSkip){
 			lastCheck = Date.now();
 		}
+		return shouldSkip;
 	}
 
 	function getUnreadThreadCount(alarm) {
