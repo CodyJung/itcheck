@@ -57,9 +57,25 @@
 		chrome.browserAction.setTitle({ title: newTitle});
 	}
 	
+	function storageGet(key, callback){
+		var k = key;
+		chrome.storage.sync.get(k, function(storageObj){
+			callback(storageObj[k]);
+		})
+	}
+	
+	function storageSet(key, val){
+		var pair = {};
+		pair[key] = val;
+		chrome.storage.sync.set(pair);
+	}
+	
+	// core exports
 	window.ITCheck.getUnreadThreadCount = getUnreadThreadCount;
 	window.ITCheck.shouldSkipRequest = shouldSkipRequest;
 	window.ITCheck.updateBadge = updateBadge;
 	window.ITCheck.setTitle = setTitle;
 	window.ITCheck.baseUrl = baseUrl;
+	window.ITCheck.storageGet = storageGet;
+	window.ITCheck.storageSet = storageSet;
 })(window);
