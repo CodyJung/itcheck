@@ -67,9 +67,7 @@
 	function storageSet(key, val){
 		var pair = {};
 		pair[key] = val;
-		chrome.storage.sync.set(pair, function(done){
-			console.log(done);
-		});
+		chrome.storage.sync.set(pair);
 	}
 	
 	// core exports

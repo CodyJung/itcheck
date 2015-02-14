@@ -14,5 +14,4 @@
 	chrome.webNavigation.onCompleted.addListener(function (details) {
 		ITCheck.getUnreadThreadCount(null);
 	},{url: [{hostSuffix: 'ivorytower.com', pathPrefix: '/IvoryTower/ForumThread.aspx'}]});
-});
 })(window);
