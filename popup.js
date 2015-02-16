@@ -43,7 +43,7 @@
 			} else {
 				// Or set it to blank
 				ITCheck.updateBadge("");
-				updatePopup("No unread threads.<br /><a href='#' id='ITToday'>Go to IvoryTower Today</a>");
+				updatePopup("No unread threads.<div><a href='#' id='ITToday'>Go to IvoryTower Today</a></div>");
 				
 				$("#ITToday").click(function() {
 					openIvoryTowerToday();

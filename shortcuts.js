@@ -51,31 +51,38 @@
 			$('.Clipped a')[0].click();
 		}
 		
-		win.onkeypress = function(e){
-			var tagKeyedIn = e.target.tagName.toLowerCase();
-			if(tagKeyedIn !== 'input' && tagKeyedIn !== 'textarea'){
-				if(e.which === 106){
-					// j for next post
-					jumpToNextPost();
-				}else if(e.which === 107){
-					// k for previous post
-					jumpToPreviousPost();
-				}else if(e.which === 117){
-					// u for next unread thread
-					doNextUnreadThread();
-				}else if(e.which === 97){
-					// a for rate up
-					ratePost(true);
-				}else if(e.which === 102){
-					// f for rate down
-					ratePost(false);
-				}else if(e.which === 104){
-					// h for hidden
-					showHiddenPosts();
-				}
+		storageGet("ITCheck.shortcutKeys", function(shortcutKeys){
+			var shortcutCodes = {};
+			
+			function initializeShortcutKeyCode(shortcutKey){
+				storageGet('ITCheck.shortcutKey.'+shortcutKey, function(val){
+					shortcutCodes[shortcutKey] = val.charCodeAt(0);
+				});
 			}
-		};
-		
+			
+			for(var i = 0; i < shortcutKeys.length; i++){
+				initializeShortcutKeyCode(shortcutKeys[i]);
+			}
+			
+			win.onkeypress = function(e){
+				var tagKeyedIn = e.target.tagName.toLowerCase();
+				if(tagKeyedIn !== 'input' && tagKeyedIn !== 'textarea'){
+					if(e.which === shortcutCodes["nextPost"]){
+						jumpToNextPost();
+					}else if(e.which === shortcutCodes["previousPost"]){
+						jumpToPreviousPost();
+					}else if(e.which === shortcutCodes["unreadThread"]){
+						doNextUnreadThread();
+					}else if(e.which === shortcutCodes["rateUp"]){
+						ratePost(true);
+					}else if(e.which === shortcutCodes["rateDown"]){
+						ratePost(false);
+					}else if(e.which === shortcutCodes["showHidden"]){
+						showHiddenPosts();
+					}
+				}
+			};
+		});
 		//determine current post number
 		var firstNewPostId = $('span#New').parent().id;
 		if(!firstNewPostId || firstNewPostId.indexOf('Post') !== 0){
@@ -100,5 +107,5 @@
 			callback(storageObj[k]);
 		});
 	}
-	storageGet('shortcuts', runShortcuts);
+	storageGet('ITCheck.shortcuts', runShortcuts);
 }(window, jQuery))

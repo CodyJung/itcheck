@@ -70,6 +70,9 @@
 		chrome.storage.sync.set(pair);
 	}
 	
+	var shortcutKeys = ["nextPost","previousPost","unreadThread","rateUp","rateDown","showHidden"];
+	storageSet("ITCheck.shortcutKeys", shortcutKeys);
+	
 	// core exports
 	window.ITCheck.getUnreadThreadCount = getUnreadThreadCount;
 	window.ITCheck.shouldSkipRequest = shouldSkipRequest;
@@ -78,4 +81,6 @@
 	window.ITCheck.baseUrl = baseUrl;
 	window.ITCheck.storageGet = storageGet;
 	window.ITCheck.storageSet = storageSet;
+	//window.ITCheck.shortcutKeys = shortcutKeys;
+	
 })(window);

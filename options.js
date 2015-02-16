@@ -1,20 +1,41 @@
-$(function(){
+(function(window, $){
 	window.ITCheck = window.ITCheck || {};
-
-	window.addEventListener('load', function() {
-		ITCheck.storageGet('showCohorts', function(val){
+	
+	ITCheck.storageGet("ITCheck.shortcutKeys", function(shortcutKeys){
+		ITCheck.storageGet('ITCheck.showCohorts', function(val){
 			options.showCohorts.checked = val;
 		});
-		ITCheck.storageGet('shortcuts', function(val){
+		ITCheck.storageGet('ITCheck.shortcuts', function(val){
 			options.shortcuts.checked = val;
 		});
+		for(var i = 0; i < shortcutKeys.length; i++){
+			var shortcutKey = shortcutKeys[i];
+			populateShortcutKey(shortcutKey);
+		}
+		for(var i = 0; i < shortcutKeys.length; i++){
+			var shortcutKey = shortcutKeys[i];
+			options[shortcutKey].onchange = function(e, shortcutKey){
+				var target = e.target;
+				ITCheck.storageSet('ITCheck.shortcutKey.'+target.name, target.value);
+			}
+		}
 	});
+	
+	function populateShortcutKey(shortcutKey){
+		ITCheck.storageGet('ITCheck.shortcutKey.'+shortcutKey, function(val){
+			if(val){
+				options[shortcutKey].value = val;
+			}
+		});
+	}
 
+	var options = $('#options')[0];
 	options.showCohorts.onchange = function() {
-		ITCheck.storageSet('showCohorts', options.showCohorts.checked);
+		ITCheck.storageSet('ITCheck.showCohorts', options.showCohorts.checked);
 	};
 	
 	options.shortcuts.onchange = function() {
-		ITCheck.storageSet('shortcuts', options.shortcuts.checked);
+		ITCheck.storageSet('ITCheck.shortcuts', options.shortcuts.checked);
+		$('#shortcutSection').toggle(options.shortcuts.checked);
 	};
-});
+})(window, jQuery);

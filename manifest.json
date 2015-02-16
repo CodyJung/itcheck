@@ -1,9 +1,9 @@
 {
 	"name": "IvoryTower Checker",
 	"short_name": "IT Check",
-	"author": "Cody Jung",
-	"version": "1.3.0",
-	"description": "Checks IvoryTower for unread threads",
+	"author": "Cody Jung, Eric Clymer",
+	"version": "1.4.0",
+	"description": "Checks IvoryTower for unread threads, adds misc other functionality.",
 	"icons": {
 		"48": "icon48.png",
 		"128": "icon128.png"

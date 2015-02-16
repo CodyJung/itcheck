@@ -30,5 +30,5 @@
 			callback(storageObj[k]);
 		});
 	}
-	storageGet('showCohorts', runadder);
+	storageGet('ITCheck.showCohorts', runadder);
 })();
