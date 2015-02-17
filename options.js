@@ -3,10 +3,18 @@
 	
 	ITCheck.storageGet("ITCheck.shortcutKeys", function(shortcutKeys){
 		ITCheck.storageGet('ITCheck.showCohorts', function(val){
-			options.showCohorts.checked = val;
+			if(val){
+				options.showCohorts.checked = val;
+			}else{
+				ITCheck.storageSet('ITCheck.showCohorts', true);
+			}
 		});
 		ITCheck.storageGet('ITCheck.shortcuts', function(val){
-			options.shortcuts.checked = val;
+			if(val){
+				options.shortcuts.checked = val;
+			}else{
+				ITCheck.storageSet('ITCheck.shortcuts', true);
+			}
 		});
 		for(var i = 0; i < shortcutKeys.length; i++){
 			var shortcutKey = shortcutKeys[i];
