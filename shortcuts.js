@@ -67,17 +67,17 @@
 			win.onkeypress = function(e){
 				var tagKeyedIn = e.target.tagName.toLowerCase();
 				if(tagKeyedIn !== 'input' && tagKeyedIn !== 'textarea'){
-					if(e.which === shortcutCodes["nextPost"]){
+					if(e.which === (shortcutCodes["nextPost"] || 106)){
 						jumpToNextPost();
-					}else if(e.which === shortcutCodes["previousPost"]){
+					}else if(e.which === (shortcutCodes["previousPost"] || 107)){
 						jumpToPreviousPost();
-					}else if(e.which === shortcutCodes["unreadThread"]){
+					}else if(e.which === (shortcutCodes["unreadThread"] || 110)){
 						doNextUnreadThread();
-					}else if(e.which === shortcutCodes["rateUp"]){
+					}else if(e.which === (shortcutCodes["rateUp"] || 117)){
 						ratePost(true);
-					}else if(e.which === shortcutCodes["rateDown"]){
+					}else if(e.which === (shortcutCodes["rateDown"] || 100)){
 						ratePost(false);
-					}else if(e.which === shortcutCodes["showHidden"]){
+					}else if(e.which === (shortcutCodes["showHidden"] || 104)){
 						showHiddenPosts();
 					}
 				}
