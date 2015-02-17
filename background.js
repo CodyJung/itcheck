@@ -8,10 +8,11 @@
 	});
 	chrome.runtime.onInstalled.addListener(function(details) {
 		chrome.alarms.create("updater", { "periodInMinutes": 1 });
+		chrome.tabs.create({url: "options.html"}, function (tab) {});
 	});
 
 	// Update number on navigate to a new thread
 	chrome.webNavigation.onCompleted.addListener(function (details) {
 		ITCheck.getUnreadThreadCount(null);
 	},{url: [{hostSuffix: 'ivorytower.com', pathPrefix: '/IvoryTower/ForumThread.aspx'}]});
-})(window);
+})(window);	

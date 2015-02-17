@@ -1,9 +1,9 @@
 {
 	"name": "IvoryTower Checker",
 	"short_name": "IT Check",
-	"author": "Cody Jung",
-	"version": "1.3.0",
-	"description": "Checks IvoryTower for unread threads",
+	"author": "Cody Jung, Eric Clymer",
+	"version": "1.4.0",
+	"description": "Checks IvoryTower for unread threads, adds misc other functionality.",
 	"icons": {
 		"48": "icon48.png",
 		"128": "icon128.png"
@@ -16,8 +16,10 @@
 	"permissions": [
 		"alarms",
 		"webNavigation",
-		"http://ivorytower.com/"
+		"http://ivorytower.com/",
+		"storage"
 	],
+	"options_page": "options.html",
 	"background": {
 		"scripts": ["jquery-2.1.3.min.js", "core.js", "background.js"],
 		"persistent": false
@@ -25,7 +27,7 @@
 	"content_scripts": [
 		{
 		  "matches": ["http://*.ivorytower.com/*"],
-		  "js": ["jquery-2.1.3.min.js", "core.js", "cohort-year-adder.js", "shortcuts.js"]
+		  "js": ["jquery-2.1.3.min.js", "cohort-year-adder.js", "shortcuts.js"]
 		}
 	],
 	"manifest_version": 2

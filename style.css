@@ -2,12 +2,17 @@ body{
 	color:#333;
 	font-family:Arial, Helevetica, sans-serif;
 	font-size:10pt;
+	text-align:center;
+}
+
+div{
+	margin-top:10px;
+	margin-bottom:10px;
 }
 
 #result{
 	width:350px;
 	margin:0px auto;
-	text-align:center;
 }
 
 #empty{
@@ -18,4 +23,42 @@ body{
 	font-style:italic;
 	cursor:pointer;
 	color:#CCC;
+}
+
+#shortcutSection{
+	text-align:left;
+	width:300px;
+	margin:auto;
+	height:300px;
+}
+
+.shortcutKey{
+	height:20px;
+}
+
+.shortcutKey label{
+	float: left;
+}
+
+.shortcutKey input{
+	float: right;
+}
+
+#topLevelSettings{
+	text-align:left;
+	width:300px;
+	margin:auto;
+	height:70px;
+}
+
+.topLevelSetting{
+	height:20px;
+}
+
+.topLevelSetting label{
+	float: left;
+}
+
+.topLevelSetting input{
+	float: right;
 }
