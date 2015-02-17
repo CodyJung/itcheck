@@ -7,14 +7,18 @@
 				options.showCohorts.checked = val;
 			}else{
 				ITCheck.storageSet('ITCheck.showCohorts', true);
+				val = true;
 			}
+			options.showCohorts.checked = val;
 		});
 		ITCheck.storageGet('ITCheck.shortcuts', function(val){
 			if(val){
 				options.shortcuts.checked = val;
 			}else{
 				ITCheck.storageSet('ITCheck.shortcuts', true);
+				val = true;
 			}
+			options.shortcuts.checked = val;
 		});
 		for(var i = 0; i < shortcutKeys.length; i++){
 			var shortcutKey = shortcutKeys[i];
