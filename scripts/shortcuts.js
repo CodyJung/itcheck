@@ -1,5 +1,4 @@
-(function(win, $){
-	var ITCheck = window.ITCheck;
+(function(window, ITCheckStorage, $){
 	function runShortcuts(val){
 		if(!val){
 			return;
@@ -9,7 +8,6 @@
 			var masterLink = $('#Master_ctl08 a[href*="ForumThread.aspx"]');
 			if(masterLink.length > 0){
 				masterLink[0].click();
-			}else{
 			}
 		};
 		
@@ -49,11 +47,11 @@
 			$('.Clipped a')[0].click();
 		}
 		
-		ITCheck.storageGet("ITCheck.shortcutKeys", function(shortcutKeys){
+		ITCheckStorage.storageGet(ITCheckStorage.shortcutKeys, function(shortcutKeys){
 			var shortcutCodes = {};
 			
 			function initializeShortcutKeyCode(shortcutKey){
-				ITCheck.storageGet('ITCheck.shortcutKey.'+shortcutKey, function(val){
+				ITCheckStorage.storageGet(ITCheckStorage.getShortcutKeyKey(shortcutKey), function(val){
 					shortcutCodes[shortcutKey] = val.charCodeAt(0);
 				});
 			}
@@ -62,7 +60,7 @@
 				initializeShortcutKeyCode(shortcutKeys[i]);
 			}
 			
-			win.onkeypress = function(e){
+			window.onkeypress = function(e){
 				var tagKeyedIn = e.target.tagName.toLowerCase();
 				if(tagKeyedIn !== 'input' && tagKeyedIn !== 'textarea'){
 					if(e.which === (shortcutCodes["nextPost"] || 106)){
@@ -95,9 +93,12 @@
 		if(firstNewPostId){
 			var currentPostNumber = firstNewPostId.substring(4);
 			location.hash = 'Post'+currentPostNumber;
-			$("#Post" + currentPostNumber).css({"border-left-width": 3, "padding-left": 10});
+			$("#Post" + currentPostNumber).css({
+				"border-left-width": 3, 
+				"padding-left": 10
+			});
 		}
 	}
 	
-	ITCheck.storageGet('ITCheck.shortcuts', runShortcuts);
-})(window, jQuery);
+	ITCheckStorage.storageGet(ITCheckStorage.shortcutsEnabledKey, runShortcuts);
+})(window, window.ITCheck.storage, jQuery);

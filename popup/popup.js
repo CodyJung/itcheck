@@ -1,9 +1,7 @@
 /* global chrome */
 /* global jQuery */
 /* global ITCheck */
-(function(window, $){
-	var ITCheck = window.ITCheck;
-		
+(function(ITCheck, $){		
 	function createTab(url){
 		chrome.tabs.create({'url': url});
 	}
@@ -32,6 +30,7 @@
 				
 				var firstUnread = /<a href="ForumThread.aspx\?Thread=(\d+)#New">([^<]+)</;
 				var unread = firstUnread.exec(data);
+				// TODO assemble this less manually
 				var popupString = "First Unread Thread:<br /><a href='#' id='readThread'>" + unread[2] + "</a><br /><br />";
 				var skipString = "<span id='skipThread'>Mark as read</span>";
 				updatePopup(popupString + skipString);
@@ -46,6 +45,7 @@
 			} else {
 				// Or set it to blank
 				ITCheck.updateBadge("");
+				// TODO assemble this less manually
 				updatePopup("No unread threads.<div><a href='#' id='ITToday'>Go to IvoryTower Today</a></div>");
 				
 				$("#ITToday").click(function() {
@@ -86,6 +86,7 @@
 			var nextUnread = /<a href="ForumThread.aspx\?Thread=(\d+)#New">([^<]+)</;
 			if(data2.match(nextUnread)){
 				var unread = nextUnread.exec(data2);
+				// TODO assemble this less manually
 				var popupString = "First Unread Thread:<br /><a href='#' id='readThread'>" + unread[2] + "</a><br /><br />";
 				var skipString = "<span id='skipThread'>Mark as read</span>";
 				updatePopup(popupString + skipString);
@@ -98,6 +99,7 @@
 					skipThread(unread[1]);
 				});
 			} else {
+				// TODO assemble this less manually
 				updatePopup("No unread threads.<br /><a href='#' id='ITToday'>Go to IvoryTower Today</a>");
 				
 				$("#ITToday").click(function() {
@@ -116,4 +118,4 @@
 	$(document).ready(function() {
 		getUnreadThreads();
 	});
-})(window, jQuery);
+})(window.ITCheck, jQuery);

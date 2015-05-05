@@ -1,4 +1,4 @@
-(function(window){
+(function(window, $){
 	window.ITCheck = window.ITCheck || {};
 	
 	var baseUrl = "http://ivorytower.com/IvoryTower/";
@@ -57,21 +57,32 @@
 		chrome.browserAction.setTitle({ title: newTitle});
 	}
 	
-	function storageGet(key, callback){
-		var k = key;
-		chrome.storage.sync.get(k, function(storageObj){
-			callback(storageObj[k]);
-		})
-	}
+	var storage = {
+		storageGet: function(key, callback){
+			var k = key;
+			chrome.storage.sync.get(k, function(storageObj){
+				callback(storageObj[k]);
+			});
+		},
+		
+		storageSet: function(key, val){
+			var pair = {};
+			pair[key] = val;
+			chrome.storage.sync.set(pair);
+		},
+		
+		shortcutsEnabledKey: 'ITCheck.shortcuts',
+		showCohortsEnabledKey: 'ITCheck.showCohorts',
+		shortcutKeys: 'ITCheck.shortcutKeys',
+		shortcutKeyKeys: ["nextPost","previousPost", "unreadThread", "rateUp", "rateDown", "showHidden"],
+
+		getShortcutKeyKey: function(name){
+			return 'ITCheck.shortcutKey.'+name;
+		},
+		
+	};
 	
-	function storageSet(key, val){
-		var pair = {};
-		pair[key] = val;
-		chrome.storage.sync.set(pair);
-	}
-	
-	var shortcutKeys = ["nextPost","previousPost","unreadThread","rateUp","rateDown","showHidden"];
-	storageSet("ITCheck.shortcutKeys", shortcutKeys);
+	storage.storageSet(storage.shortcutKeys, storage.shortcutKeyKeys);
 	
 	// core exports
 	window.ITCheck.getUnreadThreadCount = getUnreadThreadCount;
@@ -79,8 +90,8 @@
 	window.ITCheck.updateBadge = updateBadge;
 	window.ITCheck.setTitle = setTitle;
 	window.ITCheck.baseUrl = baseUrl;
-	window.ITCheck.storageGet = storageGet;
-	window.ITCheck.storageSet = storageSet;
+	window.ITCheck.storage = storage;
+	//window.ITCheck.storageSet = storageSet;
 	//window.ITCheck.shortcutKeys = shortcutKeys;
 	
-})(window);
+})(window, jQuery);

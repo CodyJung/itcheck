@@ -1,20 +1,19 @@
-(function(window, $){
-	var ITCheck = window.ITCheck;
-	ITCheck.storageGet("ITCheck.shortcutKeys", function(shortcutKeys){
-		ITCheck.storageGet('ITCheck.showCohorts', function(val){
+(function(ITCheckStorage, $){
+	ITCheckStorage.storageGet(ITCheckStorage.shortcutKeys, function(shortcutKeys){
+		ITCheckStorage.storageGet(ITCheckStorage.showCohortsEnabledKey, function(val){
 			if(val){
 				options.showCohorts.checked = val;
 			}else{
-				ITCheck.storageSet('ITCheck.showCohorts', true);
+				ITCheckStorage.storageSet(ITCheckStorage.showCohortsEnabledKey, true);
 				val = true;
 			}
 			options.showCohorts.checked = val;
 		});
-		ITCheck.storageGet('ITCheck.shortcuts', function(val){
+		ITCheckStorage.storageGet(ITCheckStorage.shortcutsEnabledKey, function(val){
 			if(val){
 				options.shortcuts.checked = val;
 			}else{
-				ITCheck.storageSet('ITCheck.shortcuts', true);
+				ITCheckStorage.storageSet(ITCheckStorage.shortcutsEnabledKey, true);
 				val = true;
 			}
 			options.shortcuts.checked = val;
@@ -27,13 +26,13 @@
 			var shortcutKey = shortcutKeys[i];
 			options[shortcutKey].onchange = function(e){
 				var target = e.target;
-				ITCheck.storageSet('ITCheck.shortcutKey.'+target.name, target.value);
+				ITCheckStorage.storageSet(ITCheckStorage.getShortcutKeyKey(target.name), target.value);
 			}
 		}
 	});
 	
 	function populateShortcutKey(shortcutKey){
-		ITCheck.storageGet('ITCheck.shortcutKey.'+shortcutKey, function(val){
+		ITCheckStorage.storageGet(ITCheckStorage.getShortcutKeyKey(shortcutKey), function(val){
 			if(val){
 				options[shortcutKey].value = val;
 			}
@@ -42,11 +41,11 @@
 
 	var options = $('#options')[0];
 	options.showCohorts.onchange = function() {
-		ITCheck.storageSet('ITCheck.showCohorts', options.showCohorts.checked);
+		ITCheckStorage.storageSet(ITCheckStorage.showCohortsEnabledKey, options.showCohorts.checked);
 	};
 	
 	options.shortcuts.onchange = function() {
-		ITCheck.storageSet('ITCheck.shortcuts', options.shortcuts.checked);
+		ITCheckStorage.storageSet(ITCheckStorage.showCohortsEnabledKey, options.shortcuts.checked);
 		$('#shortcutSection').toggle(options.shortcuts.checked);
 	};
-})(window, jQuery);
+})(window.ITCheck.storage, jQuery);
