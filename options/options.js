@@ -26,7 +26,7 @@
 		}
 		for(var i = 0; i < shortcutKeys.length; i++){
 			var shortcutKey = shortcutKeys[i];
-			options[shortcutKey].onchange = function(e, shortcutKey){
+			options[shortcutKey].onchange = function(e){
 				var target = e.target;
 				ITCheck.storageSet('ITCheck.shortcutKey.'+target.name, target.value);
 			}

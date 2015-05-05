@@ -1,4 +1,7 @@
-(function(window){
+/* global chrome */
+/* global jQuery */
+/* global ITCheck */
+(function(window, $){
 	window.ITCheck = window.ITCheck || {};
 		
 	function createTab(url){
@@ -24,7 +27,7 @@
 			}else if(data.match(myRegex)){
 				// If there are unread threads, update the badge
 				var matches = myRegex.exec(data);
-				numberOfUnread = matches[1];
+				var numberOfUnread = matches[1];
 				ITCheck.updateBadge(numberOfUnread);
 				
 				var firstUnread = /<a href="ForumThread.aspx\?Thread=(\d+)#New">([^<]+)</;
@@ -113,4 +116,4 @@
 	$(document).ready(function() {
 		getUnreadThreads();
 	});
-})(window);
+})(window, jQuery);

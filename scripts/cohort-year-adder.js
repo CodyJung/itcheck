@@ -1,3 +1,4 @@
+/* global XPathResult */
 // ==UserScript==
 // @name IvoryTower Cohort Thing
 // @description Adds cohort year to IT years
@@ -6,7 +7,7 @@
 // @include http://ivorytower.dyndns.org/*
 // @include http://ivorytower.go.dyndns.org/*
 // ==/UserScript==
-(function(){	 
+(function(){
 	var years = {
 		// Sanitized for GitHub. Added back on building.
 	};

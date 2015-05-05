@@ -1,5 +1,4 @@
-(function(win, $){	
-	
+(function(win, $){
 	function runShortcuts(val){
 		if(!val){
 			return;
@@ -108,4 +107,4 @@
 		});
 	}
 	storageGet('ITCheck.shortcuts', runShortcuts);
-}(window, jQuery))
+})(window, jQuery);
