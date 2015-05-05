@@ -2,7 +2,7 @@
 /* global jQuery */
 /* global ITCheck */
 (function(window, $){
-	window.ITCheck = window.ITCheck || {};
+	var ITCheck = window.ITCheck;
 		
 	function createTab(url){
 		chrome.tabs.create({'url': url});

@@ -1,6 +1,5 @@
 (function(window, $){
-	window.ITCheck = window.ITCheck || {};
-	
+	var ITCheck = window.ITCheck;
 	ITCheck.storageGet("ITCheck.shortcutKeys", function(shortcutKeys){
 		ITCheck.storageGet('ITCheck.showCohorts', function(val){
 			if(val){

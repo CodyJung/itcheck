@@ -24,14 +24,15 @@
 		"scripts": [
 			"/lib/jquery-2.1.3.min.js", 
 			"/scripts/core.js", 
-			"background.js"],
+			"/background.js"],
 		"persistent": false
 	},
 	"content_scripts": [
 		{
 		  "matches": ["http://*.ivorytower.com/*"],
 		  "js": [
-			  "/lib/jquery-2.1.3.min.js", 
+			  "/lib/jquery-2.1.3.min.js",
+			  "/scripts/core.js",
 			  "/scripts/cohort-year-adder.js", 
 			  "/scripts/emoticon-adder.js", 
 			  "/scripts/shortcuts.js"]

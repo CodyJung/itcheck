@@ -1,18 +1,5 @@
 (function(window){
-	window.ITCheck = window.ITCheck || {};
-	
-	function storageGet(key, callback){
-		var k = key;
-		chrome.storage.sync.get(k, function(storageObj){
-			callback(storageObj[k]);
-		});
-	};
-	
-	function storageSet(key, val){
-		var pair = {};
-		pair[key] = val;
-		chrome.storage.sync.set(pair);
-	};
+	window.ITCheck = window.ITCheck || {};	
 	
 	// Get things rolling
 	chrome.alarms.onAlarm.addListener(ITCheck.getUnreadThreadCount);
@@ -22,11 +9,11 @@
 	
 	// According to https://developer.chrome.com/extensions/runtime#event-onInstalled this runs on install, update, and when chrome is updated
 	chrome.runtime.onInstalled.addListener(function(details) {
-		storageGet('ITCheck.hasInstalled', function(result){
+		window.ITCheck.storageGet('ITCheck.hasInstalled', function(result){
 			if(result){
 				return;
 			}
-			storageSet('ITCheck.hasInstalled', true);
+			window.ITCheck.storageSet('ITCheck.hasInstalled', true);
 			chrome.alarms.create("updater", { "periodInMinutes": 1 });
 			chrome.tabs.create({url: "/options/options.html"}, function (tab) {});
 		});

@@ -7,7 +7,8 @@
 // @include http://ivorytower.dyndns.org/*
 // @include http://ivorytower.go.dyndns.org/*
 // ==/UserScript==
-(function(){
+(function(window){
+	var ITCheck = window.ITCheck;
 	var years = {
 		// Sanitized for GitHub. Added back on building.
 	};
@@ -25,11 +26,5 @@
 		}
 	}
 	
-	function storageGet(key, callback){
-		var k = key;
-		chrome.storage.sync.get(k, function(storageObj){
-			callback(storageObj[k]);
-		});
-	}
-	storageGet('ITCheck.showCohorts', runadder);
-})();
+	ITCheck.storageGet('ITCheck.showCohorts', runadder);
+})(window);

@@ -1,4 +1,5 @@
 (function(win, $){
+	var ITCheck = window.ITCheck;
 	function runShortcuts(val){
 		if(!val){
 			return;
@@ -7,10 +8,8 @@
 		function doNextUnreadThread(){
 			var masterLink = $('#Master_ctl08 a[href*="ForumThread.aspx"]');
 			if(masterLink.length > 0){
-				console.log('moving to next unread thread');
 				masterLink[0].click();
 			}else{
-				console.log('no unread threads');
 			}
 		};
 		
@@ -50,11 +49,11 @@
 			$('.Clipped a')[0].click();
 		}
 		
-		storageGet("ITCheck.shortcutKeys", function(shortcutKeys){
+		ITCheck.storageGet("ITCheck.shortcutKeys", function(shortcutKeys){
 			var shortcutCodes = {};
 			
 			function initializeShortcutKeyCode(shortcutKey){
-				storageGet('ITCheck.shortcutKey.'+shortcutKey, function(val){
+				ITCheck.storageGet('ITCheck.shortcutKey.'+shortcutKey, function(val){
 					shortcutCodes[shortcutKey] = val.charCodeAt(0);
 				});
 			}
@@ -87,7 +86,7 @@
 		if(!firstNewPostId || firstNewPostId.indexOf('Post') !== 0){
 			var threadTds = $('.ForumThread td');
 			if(threadTds.length){
-				firstNewPostId = threadTds.last()[0].id
+				firstNewPostId = threadTds.last()[0].id;
 			}
 		}
 		if(location.hash && location.hash.indexOf('Post') === 1){
@@ -100,11 +99,5 @@
 		}
 	}
 	
-	function storageGet(key, callback){
-		var k = key;
-		chrome.storage.sync.get(k, function(storageObj){
-			callback(storageObj[k]);
-		});
-	}
-	storageGet('ITCheck.shortcuts', runShortcuts);
+	ITCheck.storageGet('ITCheck.shortcuts', runShortcuts);
 })(window, jQuery);

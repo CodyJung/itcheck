@@ -1,8 +1,7 @@
-/* TODO: Fix these overly-broad selectors */
-(function(window, $){
+(function($){
 	$(document).ready(function() {
 
-		var emoticons = [
+		var emoticonMap = [
 			[":)", "Bitmaps/Emo/Smiley.png"],
 			[":|", "Bitmaps/Emo/Unsure.png"],
 			[":(", "Bitmaps/Emo/Frown.png"],
@@ -24,30 +23,34 @@
 			["(usa)", "Bitmaps/Emo/USA.png"]
 		];
 		
-		$( ".maincontent" ).on( "click", "#ITCheck_emotes a", function( event ) {
+		$( ".maincontent" ).on( "click", "#ITCheck_emotes a img", function( event ) {
 			event.preventDefault();
-			insertEmote( $(this).attr("href") );
+			insertEmote( $(this).attr('alt') );
 			return false;
 		});
 		
 		function emoticon_html() {
-			var emote_html = "<div id='ITCheck_emotes' style='margin:2px'>";
-			
-			for( var i=0; i < emoticons.length; i++ ) {
-				emote_html += "<a href='" + i + "'><img src='" + emoticons[i][1] + "' class='emo' width='12' height='12' alt='" + emoticons[i][0] + "' title='" + emoticons[i][0] + "'/></a>";	
+			var emotesDiv = $('<div id="ITCheck_emotes">').css({
+				margin:'2px'
+			});
+			for( var i=0; i < emoticonMap.length; i++ ) {
+				var key = emoticonMap[i][0];
+				var src = emoticonMap[i][1];
+				var img = $('<img />').addClass('emo').attr('src', src).attr('alt', key).attr('title', key).css({
+					width:12,
+					height:12
+				});
+				var emote = $('<a>').append(img);
+				emotesDiv.append(emote);
 			}
-			
-			emote_html += "</div>";
-			return emote_html;
+			return emotesDiv;
 		}
 		
-		function insertEmote( emoteIdx ) {
-			$( "#ReplyText" ).insertAtCaret( emoticons[emoteIdx][0] );	/* New Post */
-			$( "#MessageBox" ).insertAtCaret( emoticons[emoteIdx][0] ); /* Editing */
+		function insertEmote( emoteKey ) {
+			$( "textarea.rtdocument" ).insertAtCaret( emoteKey );
 		}
 		
-		$( "#ReplyExpander .small" ).after( emoticon_html() ); /* New Post */
-		$( "#MessageBox" ).before( emoticon_html() );		/* Editing */
+		$( "textarea.rtdocument" ).before( emoticon_html() );
 	});
 
 	// http://stackoverflow.com/questions/946534/insert-text-into-textarea-with-jquery
@@ -78,4 +81,4 @@
 			});
 		}
 	});
-})(window, jQuery);
+})(jQuery);
