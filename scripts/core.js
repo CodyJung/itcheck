@@ -4,19 +4,19 @@
 	var ITCheck = {
 		baseUrl: "http://ivorytower.com/IvoryTower/",
 		getUnreadThreadCount: function(alarm) {
-			if(this.shouldSkipRequest()) return;
+			if(ITCheck.shouldSkipRequest()) return;
 			
 			// Scrape the unread thread count page
 			$.get(ITCheck.baseUrl + 'Forums.asmx/GetUnreadThreadCount', function(data) {
 				var numberOfUnread = $(data).find('int').text();
 				if(numberOfUnread == 0){
-					this.updateBadge("");
+					ITCheck.updateBadge("");
 				} else {
-					this.updateBadge(numberOfUnread);
+					ITCheck.updateBadge(numberOfUnread);
 				}
 			}, "xml")
 			.fail(function(){
-				this.updateBadge("X"); // Let the user know they're probably not logged in.
+				ITCheck.updateBadge("X"); // Let the user know they're probably not logged in.
 			});
 		},
 		
@@ -24,11 +24,11 @@
 			if(unreadCount == "X"){
 				isLoggedIn = false;
 				setBadgeBackgroundColor([120, 120, 120, 255]);
-				this.setTitle("Logged Out");
+				ITCheck.setTitle("Logged Out");
 			} else {
 				isLoggedIn = true;
 				setBadgeBackgroundColor([0, 0, 255, 255]);
-				this.setTitle((unreadCount == "" ? "No " : unreadCount) + " unread threads");
+				ITCheck.setTitle((unreadCount == "" ? "No " : unreadCount) + " unread threads");
 			}	
 			setBadgeText(unreadCount);
 		},
