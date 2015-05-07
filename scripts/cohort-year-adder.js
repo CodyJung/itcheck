@@ -1,3 +1,4 @@
+/* global XPathResult */
 // ==UserScript==
 // @name IvoryTower Cohort Thing
 // @description Adds cohort year to IT years
@@ -6,7 +7,7 @@
 // @include http://ivorytower.dyndns.org/*
 // @include http://ivorytower.go.dyndns.org/*
 // ==/UserScript==
-(function(){	 
+(function(ITCheckStorage){
 	var years = {
 		// Sanitized for GitHub. Added back on building.
 	};
@@ -24,11 +25,5 @@
 		}
 	}
 	
-	function storageGet(key, callback){
-		var k = key;
-		chrome.storage.sync.get(k, function(storageObj){
-			callback(storageObj[k]);
-		});
-	}
-	storageGet('ITCheck.showCohorts', runadder);
-})();
+	ITCheckStorage.storageGet(ITCheckStorage.showCohortsEnabledKey, runadder);
+})(window.ITCheck.storage);
