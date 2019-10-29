@@ -2,7 +2,7 @@
 	//window.ITCheck = window.ITCheck || {};
 	
 	var ITCheck = {
-		baseUrl: "http://ivorytower.com/IvoryTower/",
+		baseUrl: "https://ivorytower.com/IvoryTower/",
 		getUnreadThreadCount: function(alarm) {
 			if(ITCheck.shouldSkipRequest()) return;
 			
