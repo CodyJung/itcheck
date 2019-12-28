@@ -16,7 +16,7 @@
 	"permissions": [
 		"alarms",
 		"webNavigation",
-		"https://ivorytower.com/",
+		"https://www.ivorytower.com/",
 		"storage"
 	],
 	"options_page": "/options/options.html",
