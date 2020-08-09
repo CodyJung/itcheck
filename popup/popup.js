@@ -63,8 +63,7 @@
 
 	// Replaces or appends the text in the popup.
 	function updatePopup(text) {
-		const newHtml = text + `<div><a href='/options/options.html'>View Options Page</a></div>`;
-		$("#result").html(newHtml);
+		$("#result").html(text);
 	}
 
 	// Opens a thread in a new window.

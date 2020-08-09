@@ -1,64 +1,68 @@
-body{
-	color:#333;
-	font-family:Arial, Helevetica, sans-serif;
-	font-size:10pt;
-	text-align:center;
+body {
+	color: #333;
+	font-family: Arial, Helevetica, sans-serif;
+	font-size: 10pt;
+	text-align: center;
 }
 
-div{
-	margin-top:10px;
-	margin-bottom:10px;
+div {
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
-#result{
-	width:350px;
-	margin:0px auto;
+#result {
+	width: 350px;
+	margin: 0px auto;
 }
 
-#empty{
-	display:none !important;
+#empty {
+	display: none !important;
 }
 
-#skipThread{
-	font-style:italic;
-	cursor:pointer;
-	color:#CCC;
+#skipThread {
+	font-style: italic;
+	cursor: pointer;
+	color: #CCC;
 }
 
-#shortcutSection{
-	text-align:left;
-	width:300px;
-	margin:auto;
-	height:300px;
+#shortcutSection {
+	text-align: left;
+	width: 300px;
+	margin: auto;
+	height: 300px;
 }
 
-.shortcutKey{
-	height:20px;
+.shortcutKey {
+	height: 20px;
 }
 
-.shortcutKey label{
+.shortcutKey label {
 	float: left;
 }
 
-.shortcutKey input{
+.shortcutKey input {
 	float: right;
 }
 
-#topLevelSettings{
-	text-align:left;
-	width:300px;
-	margin:auto;
-	height:70px;
+#topLevelSettings {
+	text-align: left;
+	width: 300px;
+	margin: auto;
+	height: 70px;
 }
 
-.topLevelSetting{
-	height:20px;
+.smallNumInput {
+	width: 60px;
 }
 
-.topLevelSetting label{
+.topLevelSetting {
+	height: 20px;
+}
+
+.topLevelSetting label {
 	float: left;
 }
 
-.topLevelSetting input{
+.topLevelSetting input {
 	float: right;
 }
