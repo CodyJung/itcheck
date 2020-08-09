@@ -2,7 +2,7 @@
 	//window.ITCheck = window.ITCheck || {};
 	
 	var ITCheck = {
-		baseUrl: "http://ivorytower.com/IvoryTower/",
+		baseUrl: "https://www.ivorytower.com/IvoryTower/",
 		getUnreadThreadCount: function(alarm) {
 			if(ITCheck.shouldSkipRequest()) return;
 			
@@ -28,7 +28,7 @@
 			} else {
 				isLoggedIn = true;
 				setBadgeBackgroundColor([0, 0, 255, 255]);
-				ITCheck.setTitle((unreadCount == "" ? "No " : unreadCount) + " unread threads");
+				ITCheck.setTitle((unreadCount == "" ? "No" : unreadCount) + " unread threads");
 			}	
 			setBadgeText(unreadCount);
 		},
