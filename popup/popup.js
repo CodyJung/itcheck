@@ -65,7 +65,7 @@
 			})
 			.fail(function () {
 				ITCheck.setLoggedOut();
-				ITCheck.updatePopup("Error contacting IT - is the server ok?");
+				ITCheck.popup.updatePopup("Error contacting IT - is the server ok?");
 			}).done(getUnreadThreadInfoForPopup);
 	}
 
