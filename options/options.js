@@ -1,23 +1,23 @@
 (function (ITCheck, $) {
 	const ITCheckStorage = ITCheck.storage;
 	const optionsEl = $('#options')[0];
-	ITCheckStorage.storageGet(ITCheckStorage.showCohortsEnabledKey, function (val) {
-		if (val) {
-			optionsEl.showCohorts.checked = val;
+	ITCheckStorage.storageGet(ITCheckStorage.showCohortsEnabledKey, function (valueInStorage) {
+		if (valueInStorage) {
+			optionsEl.showCohorts.checked = valueInStorage;
 		} else {
 			ITCheckStorage.storageSet(ITCheckStorage.showCohortsEnabledKey, true);
-			val = true;
+			valueInStorage = true;
 		}
-		optionsEl.showCohorts.checked = val;
+		optionsEl.showCohorts.checked = valueInStorage;
 	});
-	ITCheckStorage.storageGet(ITCheckStorage.shortcutsEnabledKey, function (val) {
-		if (val) {
-			optionsEl.shortcuts.checked = val;
+	ITCheckStorage.storageGet(ITCheckStorage.shortcutsEnabledKey, function (valueInStorage) {
+		if (valueInStorage) {
+			optionsEl.shortcuts.checked = valueInStorage;
 		} else {
 			ITCheckStorage.storageSet(ITCheckStorage.shortcutsEnabledKey, true);
-			val = true;
+			valueInStorage = true;
 		}
-		optionsEl.shortcuts.checked = val;
+		optionsEl.shortcuts.checked = valueInStorage;
 	});
 	ITCheckStorage.storageGet(ITCheckStorage.checkIntervalKey, function (checkIntervalMinutes) {
 		if (checkIntervalMinutes) {
@@ -30,23 +30,23 @@
 	});
 
 	ITCheckStorage.storageGet(ITCheckStorage.shortcutKeys, function (shortcutKeys) {
-		for (var i = 0; i < shortcutKeys.length; i++) {
+		for (let i = 0; i < shortcutKeys.length; i++) {
 			var shortcutKey = shortcutKeys[i];
 			populateShortcutKey(shortcutKey);
 		}
-		for (var i = 0; i < shortcutKeys.length; i++) {
-			var shortcutKey = shortcutKeys[i];
+		for (let j = 0; j < shortcutKeys.length; j++) {
+			var shortcutKey = shortcutKeys[j];
 			options[shortcutKey].onchange = function (e) {
-				var target = e.target;
+				const target = e.target;
 				ITCheckStorage.storageSet(ITCheckStorage.getShortcutKeyKey(target.name), target.value);
 			}
 		}
 	});
 
 	function populateShortcutKey(shortcutKey) {
-		ITCheckStorage.storageGet(ITCheckStorage.getShortcutKeyKey(shortcutKey), function (val) {
-			if (val) {
-				options[shortcutKey].value = val;
+		ITCheckStorage.storageGet(ITCheckStorage.getShortcutKeyKey(shortcutKey), function (valueInStorage) {
+			if (valueInStorage) {
+				options[shortcutKey].value = valueInStorage;
 			}
 		});
 	}

@@ -2,122 +2,80 @@
 /* global jQuery */
 /* global ITCheck */
 (function (ITCheck, $) {
-	function createTab(url) {
-		chrome.tabs.create({
-			'url': url
+	const firstUnreadRegex = /<a href="ForumThread.aspx\?Thread=(\d+)#New">([^<]+)</;
+	const unreadThreadCountRegex = /<title>\s+IvoryTower \((\d+)\)/;
+	const notLoggedInRegex = /<title>\s+IvoryTower - login\s+/;
+
+	function updateUnreadThread(data, updateCount) {
+		if (updateCount) {
+			const matches = unreadThreadCountRegex.exec(data);
+			const numberOfUnread = matches[1];
+			ITCheck.updateBadge(numberOfUnread);
+		}
+		const unread = firstUnreadRegex.exec(data);
+		ITCheck.popup.setReadThread(unread[2]);
+		$("#readThread").click(function () {
+			openThread(unread[1]);
+		});
+
+		$("#skipThread").click(function () {
+			skipThread(unread[1]);
 		});
 	}
 
-	function getUnreadThreads() {
-		if (ITCheck.shouldSkipRequest()) return;
-
+	function getUnreadThreadInfoForPopup() {
+		if (ITCheck.shouldSkipRequest(true)) return;
+		ITCheck.popup.setLoadingSpinner(true);
 		// Download the main page
 		$.get(ITCheck.baseUrl, function (data) {
 				// Grab the number of unreads from the title
-				var myRegex = /<title>\s+IvoryTower \((\d+)\)/;
-				var notLoggedRegex = /<title>\s+IvoryTower - login\s+/;
-
-				if (data.match(notLoggedRegex)) {
-					// Let the user know if they're not logged in.
-					ITCheck.updateBadge("X");
-					updatePopup("You must <a href='#' id='signIn'>log in</a> to IvoryTower first!");
-					$("#signIn").click(function () {
-						openSignInPage();
-					});
-				} else if (data.match(myRegex)) {
-					// If there are unread threads, update the badge
-					var matches = myRegex.exec(data);
-					var numberOfUnread = matches[1];
-					ITCheck.updateBadge(numberOfUnread);
-
-					var firstUnread = /<a href="ForumThread.aspx\?Thread=(\d+)#New">([^<]+)</;
-					var unread = firstUnread.exec(data);
-					// TODO assemble this less manually
-					var popupString = "First Unread Thread:<br /><a href='#' id='readThread'>" + unread[2] + "</a><br /><br />";
-					var skipString = "<span id='skipThread'>Mark as read</span>";
-					updatePopup(popupString + skipString);
-
-					$("#readThread").click(function () {
-						openThread(unread[1]);
-					});
-
-					$("#skipThread").click(function () {
-						skipThread(unread[1]);
-					});
+				const userIsNotLoggedIn = data.match(notLoggedInRegex);
+				const thereAreUnreadThreads = data.match(unreadThreadCountRegex);
+				if (userIsNotLoggedIn) {
+					ITCheck.setLoggedOut();
+				} else if (thereAreUnreadThreads) {
+					updateUnreadThread(data, true);
 				} else {
-					// Or set it to blank
-					ITCheck.updateBadge("");
-					// TODO assemble this less manually
-					updatePopup("No unread threads.<div><a href='#' id='ITToday'>Go to IvoryTower Today</a></div>");
-
-					$("#ITToday").click(function () {
-						openIvoryTowerToday();
-					});
+					ITCheck.updateBadge(0);
 				}
 			})
 			.fail(function () {
-				ITCheck.updateBadge("X");
-				updatePopup("Error contacting IT - is the server ok?");
+				ITCheck.setLoggedOut();
+				ITCheck.popup.updatePopup("Error contacting IT - is the server ok?");
 			});
-	}
-
-	// Replaces or appends the text in the popup.
-	function updatePopup(text) {
-		$("#result").html(text);
 	}
 
 	// Opens a thread in a new window.
 	function openThread(threadID) {
-		createTab(ITCheck.baseUrl + 'ForumThread.aspx?Thread=' + threadID + '#New');
-		getUnreadThreads();
+		ITCheck.tabs.openThread(threadID);
+		getUnreadThreadInfoForPopup();
 	}
 
-	// Open IvoryTower Today
-	function openIvoryTowerToday() {
-		createTab(ITCheck.baseUrl);
-	}
-
-	// Open Sign-in page
-	function openSignInPage() {
-		createTab(ITCheck.baseUrl + 'Login.aspx');
-	}
-
-	// Marks a thread as read without opening it.
+	// Marks a thread as read by "opening it" silently without the user seeing it
 	function skipThread(threadID) {
+		ITCheck.popup.setLoadingSpinner(true);
 		$.get(ITCheck.baseUrl + "ForumThread.aspx?Thread=" + threadID, function (data2) {
-				var nextUnread = /<a href="ForumThread.aspx\?Thread=(\d+)#New">([^<]+)</;
-				if (data2.match(nextUnread)) {
-					var unread = nextUnread.exec(data2);
-					// TODO assemble this less manually
-					var popupString = "First Unread Thread:<br /><a href='#' id='readThread'>" + unread[2] + "</a><br /><br />";
-					var skipString = "<span id='skipThread'>Mark as read</span>";
-					updatePopup(popupString + skipString);
-
-					$("#readThread").click(function () {
-						openThread(unread[1]);
-					});
-
-					$("#skipThread").click(function () {
-						skipThread(unread[1]);
-					});
+				const thereAreUnreadThreads = data2.match(firstUnreadRegex);
+				if (thereAreUnreadThreads) {
+					updateUnreadThread(data2, false);
 				} else {
-					// TODO assemble this less manually
-					updatePopup("No unread threads.<br /><a href='#' id='ITToday'>Go to IvoryTower Today</a>");
-
-					$("#ITToday").click(function () {
-						openIvoryTowerToday();
-					});
+					ITCheck.updateBadge(0);
+					ITCheck.popup.showUnreadThread(false);
 				}
 			})
 			.fail(function () {
-				ITCheck.updateBadge("X");
-				updatePopup("Error contacting IT - is the server ok?");
-			});
-
-		getUnreadThreads();
+				ITCheck.setLoggedOut();
+				ITCheck.updatePopup("Error contacting IT - is the server ok?");
+			}).done(getUnreadThreadInfoForPopup);
 	}
 
 	$(document).ready(function () {
-		getUnreadThreads();
+		$("#signIn").click(function () {
+			ITCheck.tabs.openSignInPage();
+		});
+		$("#ITToday").click(function () {
+			ITCheck.tabs.openIvoryTowerToday();
+		});
+		getUnreadThreadInfoForPopup();
 	});
 })(window.ITCheck, jQuery);

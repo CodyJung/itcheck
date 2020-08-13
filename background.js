@@ -26,15 +26,19 @@
 				url: "/options/options.html"
 			}, function (tab) {});
 		});
+		ITCheck.getUnreadThreadCount(null, true);
 	});
 
 	// Update number on navigate to a new thread
 	chrome.webNavigation.onCompleted.addListener(function (details) {
-		ITCheck.getUnreadThreadCount(null);
+		ITCheck.getUnreadThreadCount(null, true);
 	}, {
 		url: [{
 			hostSuffix: 'ivorytower.com',
-			pathPrefix: '/IvoryTower/ForumThread.aspx'
+			pathPrefix: '/ForumThread.aspx'
+		}, {
+			hostSuffix: 'ivorytower.com',
+			pathPrefix: '/default.aspx'
 		}]
 	});
 })(window.ITCheck);

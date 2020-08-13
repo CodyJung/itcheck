@@ -8,9 +8,27 @@
 </head>
 
 <body>
-	<div id='result'><img src="/assets/loading.gif" alt="Loading..."></div>
+	<div id='loadingGif'>
+		<img src="/assets/loading.gif" alt="Loading...">
+	</div>
+	<div id='result'>
+	</div>
 	<div id='empty'></div>
-	<div><a target="_blank" href='/options/options.html'>View Options Page</a></div>
+	<div id='ITTodayParent'>
+		<div><a href='#' id='ITToday'>Go to IvoryTower Today</a></div>
+	</div>
+	<div id='signInParent' style="display:none;">
+		You must <a href='#' id='signIn'>log in</a> to IvoryTower first!
+	</div>
+	<div id='unreadThreadParent' style="display:none;">
+		First Unread Thread:<br />
+		<a href='#' id='readThread'></a>
+		<br />
+		<span id='skipThread'>Mark as read</span>
+	</div>
+	<div>
+		<a target="_blank" href='/options/options.html'>View Options Page</a>
+	</div>
 </body>
 
 </html>
